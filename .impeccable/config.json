@@ -1,0 +1,25 @@
+{
+  "buildPath": "comp",
+  "hook": {
+    "enabled": true,
+    "limits": {
+      "maxFindings": 5,
+      "maxChars": 8000
+    }
+  },
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-17T11:05:11.776Z",
+        "reason": "Claude decided: only the display headings (.name 0.9, .project h3 0.95 in styles.css) use tight leading; body text is 1.55"
+      }
+    ]
+  }
+}

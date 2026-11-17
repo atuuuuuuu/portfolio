@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Usukhbayar Idertsog · Mac and web developer</title>
+  <meta name="description" content="Portfolio of Usukhbayar Idertsog, 17, a student in Ulaanbaatar who builds open-source Mac apps and web tools: Convrt, Scrollr and Unpacked.">
+  <meta name="author" content="Usukhbayar Idertsog">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#1638C9">
+
+  <!-- If you move to your own domain, replace https://atuuuuuuu.github.io/portfolio/ (see README). -->
+  <link rel="canonical" href="https://atuuuuuuu.github.io/portfolio/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Usukhbayar Idertsog">
+  <meta property="og:title" content="Usukhbayar Idertsog · Mac and web developer">
+  <meta property="og:description" content="I build small, focused tools for the Mac and the web: Convrt, Scrollr and Unpacked.">
+  <meta property="og:url" content="https://atuuuuuuu.github.io/portfolio/">
+  <meta property="og:image" content="https://atuuuuuuu.github.io/portfolio/assets/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Usukhbayar Idertsog's name over a blue flow field.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // Content starts hidden for the scroll reveals; if effects.js never runs (file://, offline, old browser), show it all.
+    document.documentElement.classList.add('js');
+    setTimeout(() => { if (!document.documentElement.classList.contains('fx')) document.documentElement.classList.remove('js'); }, 1500);
+  </script>
+  <script type="module" src="effects.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Usukhbayar Idertsog",
+    "email": "mailto:idertsogusukhbayar@gmail.com",
+    "url": "https://atuuuuuuu.github.io/portfolio/",
+    "description": "Builds small, focused tools for the Mac and the web.",
+    "affiliation": { "@type": "EducationalOrganization", "name": "New Mongol College of Technology" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Ulaanbaatar", "addressCountry": "MN" },
+    "sameAs": [
+      "https://github.com/atuuuuuuu",
+      "https://dev.to/atuuuuuuu"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#work">Skip to my work</a>
+
+  <header class="hero" id="top">
+    <canvas class="flow" aria-hidden="true"></canvas>
+
+    <div class="topbar">
+      <a class="logo" href="#top" aria-label="Usukhbayar Idertsog, back to top">UI</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Menu</span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Sections">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+
+    <h1 class="name" data-split>Usukhbayar<br>Idertsog</h1>
+    <p class="intro" data-reveal style="--d: 0.2s">I build small, focused tools for the Mac and the web: the kind that do one job well and keep your files on your own device.</p>
+
+    <div class="hero-foot" data-reveal style="--d: 0.3s">
+      <a class="hero-cta" href="mailto:idertsogusukhbayar@gmail.com" data-magnetic>idertsogusukhbayar@gmail.com</a>
+      <a class="hero-ghost" href="#work" data-magnetic>See my work</a>
+    </div>
+  </header>
+
+  <div class="ticker" aria-label="Languages and tools I use">
+    <ul class="ticker-track">
+      <li>C++</li><li>Java</li><li>Python</li><li>Swift</li><li>TypeScript</li><li>JavaScript</li>
+      <li>Raylib</li><li>SwiftUI</li><li>React</li><li>WebGL</li><li>VS Code</li><li>Xcode</li>
+    </ul>
+  </div>
+
+  <main>
+    <section class="section" id="work" aria-labelledby="work-title">
+      <h2 id="work-title" data-reveal>Selected work</h2>
+      <div class="section-body">
+
+        <article class="project" id="convrt">
+          <h3 data-reveal="mask"><span>Convrt</span></h3>
+          <p class="lede" data-reveal>Drag a file. Hold Shift. Drop it on a slice.</p>
+          <figure class="shot" data-reveal="image">
+            <img src="assets/convrt-wheels.webp" srcset="assets/convrt-wheels-800.webp 800w, assets/convrt-wheels.webp 1600w" sizes="(max-width: 760px) calc(100vw - 32px), 60vw" width="1600" height="596" loading="lazy"
+                 alt="Convrt's three wheels: Convert with image formats, Tools with compress and crop, and Actions with AirDrop and Quick Look.">
+          </figure>
+          <p data-reveal>A macOS menu bar app that converts images, audio, video and PDFs. Start dragging a file, hold Shift, and a wheel of formats opens right at your cursor. Fully offline.</p>
+          <ul class="tags" data-reveal aria-label="Built with"><li>Swift</li><li>SwiftUI</li><li>AppKit</li><li>AVFoundation</li><li>PDFKit</li></ul>
+          <p class="links" data-reveal>
+            <a href="https://github.com/atuuuuuuu/Convrt" data-magnetic>Source code</a>
+            <a href="https://github.com/atuuuuuuu/Convrt/releases/latest" data-magnetic>Download for macOS</a>
+          </p>
+        </article>
+
+        <article class="project" id="scrollr">
+          <h3 data-reveal="mask"><span>Scrollr</span></h3>
+          <p class="lede" data-reveal>Reverse your mouse. Keep your trackpad.</p>
+          <figure class="shot" data-reveal="image">
+            <img src="assets/scrollr-menu.webp" srcset="assets/scrollr-menu-800.webp 800w, assets/scrollr-menu.webp 1600w" sizes="(max-width: 760px) calc(100vw - 32px), 60vw" width="1600" height="792" loading="lazy"
+                 alt="Scrollr's menu bar menu with Reverse Mouse Scrolling and the connected mice, next to its settings window.">
+          </figure>
+          <p data-reveal>A tiny macOS menu bar app that flips the scroll direction of your mouse and leaves the trackpad alone, with a switch for each mouse.</p>
+          <ul class="tags" data-reveal aria-label="Built with"><li>Swift</li><li>SwiftUI</li><li>Core Graphics</li><li>IOKit</li></ul>
+          <p class="links" data-reveal>
+            <a href="https://github.com/atuuuuuuu/Scrollr" data-magnetic>Source code</a>
+            <a href="https://github.com/atuuuuuuu/Scrollr/releases/latest" data-magnetic>Download for macOS</a>
+          </p>
+        </article>
+
+        <article class="project" id="unpacked">
+          <h3 data-reveal="mask"><span>Unpacked</span></h3>
+          <p class="lede" data-reveal>Your data exports, unpacked. Privately.</p>
+          <figure class="shot" data-reveal="image">
+            <picture>
+              <source srcset="assets/unpacked-dark-800.webp 800w, assets/unpacked-dark.webp 1440w" sizes="(max-width: 760px) calc(100vw - 32px), 60vw" media="(prefers-color-scheme: dark)">
+              <img src="assets/unpacked-light.webp" srcset="assets/unpacked-light-800.webp 800w, assets/unpacked-light.webp 1440w" sizes="(max-width: 760px) calc(100vw - 32px), 60vw" width="1440" height="900" loading="lazy"
+                   alt="Unpacked showing charts of a year of Spotify listening history.">
+            </picture>
+          </figure>
+          <p data-reveal>Drop the ZIP that Spotify, Instagram or YouTube gives you and see clear charts of your own data. Everything runs in your browser; nothing is uploaded.</p>
+          <ul class="tags" data-reveal aria-label="Built with"><li>TypeScript</li><li>React</li><li>Vite</li><li>d3</li><li>Playwright</li></ul>
+          <p class="links" data-reveal>
+            <a href="https://atuuuuuuu.github.io/unpacked/" data-magnetic>Try it</a>
+            <a href="https://github.com/atuuuuuuu/unpacked" data-magnetic>Source code</a>
+          </p>
+        </article>
+
+        <div class="more">
+          <h3 data-reveal>Also built</h3>
+          <dl>
+            <dt data-reveal><a href="https://github.com/atuuuuuuu/earth-jukebox">Earth Jukebox</a></dt>
+            <dd data-reveal>NASA Space Apps Challenge 2026, with team RUSTMN. Sea surface temperature data on a 3D WebGL globe, built to work with a keyboard and a screen reader.</dd>
+
+            <dt data-reveal><a href="https://github.com/atuuuuuuu/AI-ChatAssistant">AI ChatAssistant</a></dt>
+            <dd data-reveal>A school project: a voice-controlled Chrome extension that searches, navigates and describes web pages.</dd>
+
+            <dt data-reveal>Learning projects</dt>
+            <dd data-reveal>One file each, built to learn from:
+              <a href="https://github.com/atuuuuuuu/study-timer">a focus timer</a>,
+              <a href="https://github.com/atuuuuuuu/budget-tracker">a family budget</a> and
+              <a href="https://github.com/atuuuuuuu/photo-renamer">a photo renamer</a>.</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <h2 id="about-title" data-reveal>About</h2>
+      <div class="section-body prose">
+        <p class="big" data-reveal>I'm Usukhbayar, 17, a third-year student at New Mongol College of Technology in Ulaanbaatar.</p>
+        <p data-reveal>I'm curious about how things work, so I build small tools to find out. Most start with something that annoys me every day, like a mouse that scrolls the wrong way or a file in the wrong format, and end as an app other people can download.</p>
+        <p data-reveal>I write Swift for the Mac and TypeScript for the web, and I also code in C++, Java and Python, including C++ with Raylib in VS Code. Right now I'm learning more Swift and WebGL. Away from code, I produce music in FL Studio.</p>
+      </div>
+    </section>
+
+    <section class="section" id="experience" aria-labelledby="experience-title">
+      <h2 id="experience-title" data-reveal>Education and experience</h2>
+      <div class="section-body">
+        <ol class="timeline">
+          <li data-reveal>
+            <p class="when">Now</p>
+            <h3>New Mongol College of Technology</h3>
+            <p>Third-year student, Ulaanbaatar.</p>
+          </li>
+          <li data-reveal>
+            <p class="when">November 2026</p>
+            <h3>Released Convrt, Scrollr and Unpacked</h3>
+            <p>Three open-source projects with public code, tests and releases.</p>
+          </li>
+          <li data-reveal>
+            <p class="when">November 2026</p>
+            <h3>Technical writing</h3>
+            <p><a href="https://dev.to/atuuuuuuu/swiftuis-menubarextra-writes-isinserted-back-on-every-update-and-how-that-cost-me-97-cpu-6ej">How a SwiftUI menu bar bug cost me 97% CPU</a>, on dev.to.</p>
+          </li>
+          <li data-reveal>
+            <p class="when">2026</p>
+            <h3>NASA Space Apps Challenge</h3>
+            <p>Built Earth Jukebox with team RUSTMN.</p>
+          </li>
+        </ol>
+
+        <div class="toolbox">
+          <h3 data-reveal>Toolbox</h3>
+          <dl>
+            <dt data-reveal>Languages</dt><dd data-reveal>C++, Java, Python, Swift, TypeScript, JavaScript, HTML and CSS</dd>
+            <dt data-reveal>Libraries</dt><dd data-reveal>Raylib, SwiftUI, AppKit, React, Vite, WebGL</dd>
+            <dt data-reveal>Tools</dt><dd data-reveal>VS Code, Xcode, Git, GitHub Actions, Homebrew</dd>
+            <dt data-reveal>Testing</dt><dd data-reveal>Vitest, Playwright, XCTest</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title" data-reveal>Contact</h2>
+      <div class="section-body">
+        <p class="contact-lead" data-reveal>Questions, ideas or opportunities: email me.</p>
+        <a class="email" href="mailto:idertsogusukhbayar@gmail.com" data-reveal="mask"><span>idertsogusukhbayar<wbr>@gmail.com</span></a>
+        <p class="copy-row" data-reveal>
+          <button class="copy" type="button" data-copy="idertsogusukhbayar@gmail.com" data-magnetic hidden>Copy email</button>
+          <span class="copy-status" role="status" aria-live="polite"></span>
+        </p>
+        <ul class="socials" data-reveal>
+          <li><a href="https://github.com/atuuuuuuu" target="_blank" rel="noopener" data-magnetic><span class="social-name">GitHub</span><span class="social-handle">github.com/atuuuuuuu</span></a></li>
+          <li><a href="https://dev.to/atuuuuuuu" target="_blank" rel="noopener" data-magnetic><span class="social-name">dev.to</span><span class="social-handle">dev.to/atuuuuuuu</span></a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <nav class="footer-links" aria-label="Footer">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+      <a href="https://github.com/atuuuuuuu" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://dev.to/atuuuuuuu" target="_blank" rel="noopener">dev.to</a>
+    </nav>
+    <p><a href="mailto:idertsogusukhbayar@gmail.com">idertsogusukhbayar@gmail.com</a></p>
+    <p class="copyright">© <span data-year>2026</span> Usukhbayar Idertsog, Ulaanbaatar</p>
+  </footer>
+</body>
+</html>
