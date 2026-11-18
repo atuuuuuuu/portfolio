@@ -70,7 +70,8 @@ try {
   assert.notEqual(await framePrint(), before, 'the world is moving');
 
   // Pop a bubble
-  const b = await js('scene.bubble()');
+  let b = null;
+  for (let i = 0; i < 50 && !b; i++) { b = await js('scene.bubble()'); if (!b) await sleep(100); }   // wait for one in a clickable spot
   await click(b.x, b.y);
   assert.ok(await js('scene.popped') >= 1, 'clicking a bubble pops it');
   assert.equal(await js('document.querySelector(".bubbles .count").textContent'), String(await js('scene.popped')), 'bubble counter');
@@ -128,6 +129,9 @@ try {
 
   // Links between the two sites
   assert.equal(await js('document.querySelector(".brand").getAttribute("href")'), '../', 'the orb goes back to the main site');
+  assert.equal(await js('document.querySelector(".brand-back").textContent'), 'Back to main site', 'the way back is labelled');
+  assert.equal(await js('document.querySelector(".email-me").getAttribute("href")'), 'mailto:idertsogusukhbayar@gmail.com', 'Email me is always in the top bar');
+  assert.equal(await js('[...document.querySelectorAll(".label.small")].every((l) => l.style.opacity === "0")'), true, 'app names hidden far from the Projects plaza');
 
   // Top bar link to Contact
   await js('document.querySelector(".tabs a[href=\'#contact\']").click()');
@@ -174,6 +178,8 @@ try {
   }
   await sleep(1500);
   await shot('phone-world');
+  const onScreen = await js(`['about', 'projects', 'experience', 'contact'].every((k) => { const q = scene.project(k); return q && q.x > 0 && q.x < innerWidth && q.y > 60 && q.y < innerHeight; })`);
+  assert.equal(onScreen, true, 'phone overview shows all four plazas');
   await js('location.hash = "unpacked"');
   await sleep(1500);
   await shot('phone-unpacked');

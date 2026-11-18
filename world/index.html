@@ -67,7 +67,7 @@
   <header class="bar">
     <a class="brand" href="../" aria-label="Usukhbayar Idertsog: back to the main site">
       <span class="orb"><img src="../assets/favicon.svg" alt="" width="26" height="26"></span>
-      <span class="brand-name">Usukhbayar Idertsog</span>
+      <span class="brand-text"><span class="brand-name">Usukhbayar Idertsog</span><span class="brand-back">Back to main site</span></span>
     </a>
     <nav class="tabs" aria-label="Sections">
       <a href="#about">
@@ -80,6 +80,8 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Contact</a>
     </nav>
     <button class="help" type="button" data-tour aria-label="How to play" title="How to play">?</button>
+    <a class="email-me" href="mailto:idertsogusukhbayar@gmail.com" aria-label="Email me">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-6 18-3-7z"/><path d="M12 14l9-11"/></svg><span>Email me</span></a>
     <p class="bubbles" title="Bubbles popped"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="13" r="7"/><circle cx="18" cy="6" r="3"/></svg><span class="count">0</span></p>
   </header>
 
@@ -90,7 +92,7 @@
   <p class="hint-touch" aria-hidden="true">Tap to walk · drag to look · tap a plaza to open it</p>
   <a class="mode" href="?text">Text version</a>
 
-  <aside class="panel" id="panel" aria-labelledby="panel-title" hidden>
+  <aside class="panel" id="panel" role="dialog" aria-labelledby="panel-title" hidden>
     <div class="titlebar">
       <img src="../assets/favicon.svg" alt="" width="16" height="16">
       <span class="window-title" aria-hidden="true"></span>
@@ -98,9 +100,9 @@
         <button class="cap" type="button" data-min aria-label="Minimise" title="Minimise"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 7.5h6"/></svg></button>
         <button class="cap" type="button" data-max aria-label="Maximise" title="Maximise"><svg viewBox="0 0 10 10" aria-hidden="true"><rect class="one" x="2" y="2" width="6" height="6"/><path class="two" d="M2 4h4.5v4H2zM3.5 4V2.5H8v4H6.5"/></svg></button>
       </span>
-      <a class="close" href="#" data-close aria-label="Close">
+      <button class="close" type="button" data-close aria-label="Close" title="Close">
         <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 2l6 6M8 2l-6 6"/></svg>
-      </a>
+      </button>
     </div>
     <div class="panel-body"></div>
   </aside>

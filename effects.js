@@ -134,7 +134,7 @@ async function scrolling() {
   if (reduce) { addEventListener('scroll', () => onScroll(), { passive: true }); onScroll(); return; }
   try {
     const { default: Lenis } = await import('./vendor/lenis.mjs');
-    smooth = new Lenis({ lerp: 0.16, anchors: true, autoRaf: true });
+    smooth = new Lenis({ lerp: 0.32, wheelMultiplier: 1.15, anchors: { duration: 0.6 }, autoRaf: true });   // snappy: follows the wheel closely (0.16 felt slow)
     smooth.on('scroll', (l) => onScroll(l.velocity));
   } catch {
     let last = scrollY;     // no Lenis: native scrolling, same effects

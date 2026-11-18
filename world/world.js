@@ -440,6 +440,9 @@ async function start() {
     const icons = spec.key === 'projects'
       ? APPS.map((app, k) => { const ic = appIcon(app, 1.6); ic.position.set((k - 1) * 2.05, 3.1 + (k === 1 ? .35 : 0), 0); ic.userData = { key: app.key, spin: k * .8 }; return ic; })
       : [Object.assign(glyphIcon(spec, 2.2), { userData: { key: spec.key, spin: i } })];
+    // an invisible box round each spinning icon, so it can be clicked even when it is edge-on
+    const hitMat = new THREE.MeshBasicMaterial({ visible: false });
+    icons.forEach((ic) => { const sz = spec.key === 'projects' ? 1.6 : 2.2; ic.add(new THREE.Mesh(new THREE.BoxGeometry(sz, sz, sz * .9), hitMat)); });
     icons.forEach((ic) => { if (spec.key !== 'projects') ic.position.set(0, 3.3, 0); ic.userData.y = ic.position.y; group.add(ic); spinners.push(ic); clickables.push(ic); });
     [disc, step, plinth].forEach((m) => clickables.push(m));
     disc.userData.key = step.userData.key = plinth.userData.key = spec.key;
@@ -550,8 +553,9 @@ async function start() {
   // ---------- Labels ----------
   const labelBox = document.querySelector('.labels');
   const labelFor = (text, cls) => { const el = document.createElement('span'); el.className = `label ${cls || ''}`; el.textContent = text; labelBox.append(el); return el; };
+  const projectsZone = zones.find((g) => g.userData.key === 'projects');
   const labels = [
-    ...zones.map((g) => ({ el: labelFor(document.getElementById(`${g.userData.key}-title`).textContent), obj: g, dy: 5.6, key: g.userData.key })),
+    ...zones.map((g) => ({ el: labelFor(document.getElementById(`${g.userData.key}-title`).textContent), obj: g, zone: g, dy: 5.6, key: g.userData.key })),
     ...spinners.filter((s) => APPS.some((a) => a.key === s.userData.key)).map((s) => ({ el: labelFor(document.querySelector(`#${s.userData.key} h3`).textContent.trim(), 'small'), obj: s, dy: -1.3, key: s.userData.key })),
   ];
 
@@ -560,8 +564,11 @@ async function start() {
   Object.assign(controls, { enableDamping: true, dampingFactor: .08, enablePan: false, minDistance: 5, maxDistance: 34, maxPolarAngle: 1.42, minPolarAngle: .5, rotateSpeed: .55 });
   const follow = () => player.pos.clone().add(V(0, 2.2, 0));
   player.pos.y = groundHeight(player.pos.x, player.pos.z);
-  controls.target.copy(follow());
-  camera.position.copy(controls.target).add(small ? V(0, 4.5, 19) : V(0, 3.2, 14));
+  // Phones (portrait) start on a high overview so all four plazas fit; the first tap or step glides down behind Aero.
+  const BEHIND = small ? V(0, 4.5, 19) : V(0, 3.2, 14);
+  let overview = innerHeight > innerWidth, settle = 0;
+  if (overview) { controls.target.set(0, 0, -4); camera.position.set(0, 46, 52); controls.maxDistance = 90; }
+  else { controls.target.copy(follow()); camera.position.copy(controls.target).add(BEHIND); }
 
   // ---------- Blur and glow ----------
   let W = 0, H = 0;
@@ -755,8 +762,16 @@ async function start() {
     jet.material.opacity = .35 + .25 * Math.sin(t * 20) + air * .1;
     blobShadow.position.y = floor - player.pos.y + .05; blobShadow.scale.setScalar(1 / (1 + air * .4));
     // the camera keeps its angle and follows
-    const ft = follow(), delta = ft.clone().sub(controls.target);
-    controls.target.add(delta); camera.position.add(delta);
+    const ft = follow();
+    if (overview && (move.lengthSq() || player.auto || selected)) { overview = false; settle = 1; controls.maxDistance = 34; }
+    if (!overview && settle) {   // glide from the overview to behind Aero
+      const k2 = reduce ? 1 : 1 - Math.exp(-dt * 3), want = ft.clone().add(BEHIND);
+      controls.target.lerp(ft, k2); camera.position.lerp(want, k2);
+      if (camera.position.distanceTo(want) < .1) settle = 0;
+    } else if (!overview) {
+      const delta = ft.clone().sub(controls.target);
+      controls.target.add(delta); camera.position.add(delta);
+    }
     controls.update();
     sun.position.copy(player.pos).addScaledVector(sunDir, 50); sun.target.position.copy(player.pos);
     if (bokeh) bokeh.uniforms.focus.value = camera.position.distanceTo(ft);
@@ -840,12 +855,23 @@ async function start() {
     if (player.pos.distanceTo(last) > .01) { last.copy(player.pos); html.classList.add('moved'); }
 
     canvas.classList.toggle('over', !!hovered);
+    // Labels: the three app names only show near the Projects plaza; labels that would overlap are pushed apart.
+    const showing = !selected || panel.classList.contains('min'), placed = [];
+    const nearProjects = projectsZone.position.distanceTo(player.pos) < 11;
     labels.forEach((l) => {
       l.obj.getWorldPosition(wp); wp.y += l.dy;
-      const q = toScreen(wp);
-      l.el.style.opacity = q && (!selected || panel.classList.contains('min')) ? 1 : 0;
-      if (q) l.el.style.transform = `translate(${q.x}px, ${q.y}px) translate(-50%, -50%)`;
+      const q = toScreen(wp), app = l.obj !== l.zone;
+      const on = q && showing && (!app || nearProjects || l.key === hotKey);
+      l.el.style.opacity = on ? 1 : 0;
       l.el.classList.toggle('hot', l.key === hotKey || l.obj.userData.key === hotKey);
+      if (on) placed.push({ l, x: q.x, y: q.y, w: l.el.offsetWidth, h: l.el.offsetHeight });
+    });
+    placed.sort((a, b) => a.y - b.y).forEach((a, i) => {
+      for (let j = 0; j < i; j++) {
+        const b = placed[j];
+        if (Math.abs(a.x - b.x) < (a.w + b.w) / 2 + 4 && Math.abs(a.y - b.y) < (a.h + b.h) / 2 + 3) a.y = b.y + (a.h + b.h) / 2 + 3;
+      }
+      a.l.el.style.transform = `translate(${a.x}px, ${a.y}px) translate(-50%, -50%)`;
     });
     composer.render();
   });
@@ -860,7 +886,7 @@ async function start() {
     get selected() { return selected; },
     get popped() { return popped; },
     get player() { return player.pos.toArray(); },
-    bubble: () => { const ok = (q) => q && q.y > 140 && q.y < H - 140 && q.x > 60 && q.x < W - 60; const b = bubbles.find((x) => ok(toScreen(x.position)) && x.position.distanceTo(player.pos) > 3 && x.position.distanceTo(camera.position) < 25); return b && toScreen(b.position); },
+    bubble: () => { const ok = (q) => q && q.y > 140 && q.y < H - 140 && q.x > 60 && q.x < W - 60; const b = bubbles.find((x) => ok(toScreen(x.position)) && x.position.distanceTo(player.pos) > 3 && x.position.distanceTo(camera.position) < 32); return b && toScreen(b.position); },
   };
 }
 
@@ -884,8 +910,8 @@ function tour(touch) {
     back.disabled = i === 0;
     next.textContent = i === STEPS.length - 1 ? 'Start playing' : 'Next';
   };
-  const done = () => { box.hidden = true; try { localStorage.setItem('aero-tour', 'done'); } catch {} };
-  const open = () => { i = 0; show(); box.hidden = false; next.focus({ preventScroll: true }); };
+  const done = () => { box.hidden = true; document.documentElement.classList.remove('touring'); try { localStorage.setItem('aero-tour', 'done'); } catch {} };
+  const open = () => { i = 0; show(); box.hidden = false; document.documentElement.classList.add('touring'); next.focus({ preventScroll: true }); };
   next.addEventListener('click', () => { if (i < STEPS.length - 1) { i++; show(); } else done(); });
   back.addEventListener('click', () => { if (i > 0) { i--; show(); } });
   box.querySelectorAll('[data-skip]').forEach((b) => b.addEventListener('click', done));

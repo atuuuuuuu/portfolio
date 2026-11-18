@@ -5,7 +5,7 @@ is [Lenis](https://github.com/darkroomengineering/lenis) 1.3.27 for smooth scrol
 
 ## 3D world (`world/`)
 
-A second page at `world/` (https://atuuuuuuu.github.io/portfolio/world/), linked from the nav and footer here.
+A second page at `world/` (https://atuuuuuuu.github.io/portfolio/world/), shown here as the project "Aero World" in Selected work.
 It is a Frutiger Aero / Windows 7 style 3D world you walk around in as Aero, a little glossy robot, with four
 glass plazas (About me, Projects, Experience, Contact) that open Windows 7 windows. It has its own
 `index.html`, `styles.css`, `world.js` and `vendor/` (three.js r170, MIT), and shares `assets/` with this page.
