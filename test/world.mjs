@@ -42,6 +42,7 @@ async function load(width, height, { mobile = false, reduce = false, tour = fals
   await send('Page.navigate', { url: WORLD + (tour ? '' : '?notour') });
   for (let i = 0; i < 50; i++) { await sleep(100); if ((await js('document.readyState')) === 'complete') break; }
   await js('document.fonts.ready.then(() => true)');
+  for (let i = 0; i < 150 && !(await js('document.documentElement.classList.contains("world") || !document.documentElement.classList.contains("live")')); i++) await sleep(100);   // three.js loaded
   await sleep(reduce ? 500 : 1500);   // let the world draw a few frames
 }
 const mouse = (type, x, y) =>
