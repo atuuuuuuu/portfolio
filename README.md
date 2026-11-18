@@ -3,6 +3,15 @@
 A one-page portfolio in plain HTML, CSS and JavaScript. No build step, no trackers. The only third-party code
 is [Lenis](https://github.com/darkroomengineering/lenis) 1.3.27 for smooth scrolling, saved in `vendor/` (MIT).
 
+## 3D world (`world/`)
+
+A second page at `world/` (https://atuuuuuuu.github.io/portfolio/world/), linked from the nav and footer here.
+It is a Frutiger Aero / Windows 7 style 3D world you walk around in as Aero, a little glossy robot, with four
+glass plazas (About me, Projects, Experience, Contact) that open Windows 7 windows. It has its own
+`index.html`, `styles.css`, `world.js` and `vendor/` (three.js r170, MIT), and shares `assets/` with this page.
+First visit shows a short how-to-play; the ? button shows it again. `world/?text` is its text version.
+Test: `node test/world.mjs` (with the server running).
+
 ## Run it
 
 ```bash

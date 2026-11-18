@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aero World · Usukhbayar Idertsog</title>
+  <meta name="description" content="Portfolio of Usukhbayar Idertsog, 17, a student in Ulaanbaatar who builds open-source Mac apps and web tools: Convrt, Scrollr and Unpacked.">
+  <meta name="author" content="Usukhbayar Idertsog">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#7fd3ff">
+
+  <!-- The 3D world. The main site is one folder up (../). If you move to your own domain, replace https://atuuuuuuu.github.io/portfolio/. -->
+  <link rel="canonical" href="https://atuuuuuuu.github.io/portfolio/world/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Usukhbayar Idertsog">
+  <meta property="og:title" content="Aero World · Usukhbayar Idertsog">
+  <meta property="og:description" content="I build small, focused tools for the Mac and the web: Convrt, Scrollr and Unpacked.">
+  <meta property="og:url" content="https://atuuuuuuu.github.io/portfolio/world/">
+  <meta property="og:image" content="https://atuuuuuuu.github.io/portfolio/assets/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Usukhbayar Idertsog's name over a blue flow field.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // Marked before paint so the 3D world shows straight away. world.js removes it again if WebGL is missing,
+    // and the plain text version below is what's left. ?text forces the text version.
+    if (!/[?&]text\b/.test(location.search)) document.documentElement.classList.add('live');
+    // If the 3D world hasn't started after 8 s (blocked script, file://, very old browser), show the text version.
+    setTimeout(() => { const h = document.documentElement; if (!h.classList.contains('world')) h.classList.remove('live'); }, 8000);
+  </script>
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/" } }
+  </script>
+  <script type="module" src="world.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Usukhbayar Idertsog",
+    "email": "mailto:idertsogusukhbayar@gmail.com",
+    "url": "https://atuuuuuuu.github.io/portfolio/",
+    "description": "Builds small, focused tools for the Mac and the web.",
+    "affiliation": { "@type": "EducationalOrganization", "name": "New Mongol College of Technology" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Ulaanbaatar", "addressCountry": "MN" },
+    "sameAs": [
+      "https://github.com/atuuuuuuu",
+      "https://dev.to/atuuuuuuu"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- The 3D version: a sunny world you walk around in, with a glass plaza per section. Everything it shows comes from the sections below. -->
+  <div class="stage" aria-hidden="true">
+    <canvas id="world"></canvas>
+    <div class="labels"></div>
+  </div>
+
+  <header class="bar">
+    <a class="brand" href="../" aria-label="Usukhbayar Idertsog: back to the main site">
+      <span class="orb"><img src="../assets/favicon.svg" alt="" width="26" height="26"></span>
+      <span class="brand-name">Usukhbayar Idertsog</span>
+    </a>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#about">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>About me</a>
+      <a href="#projects">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>Projects</a>
+      <a href="#experience">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>Experience</a>
+      <a href="#contact">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Contact</a>
+    </nav>
+    <button class="help" type="button" data-tour aria-label="How to play" title="How to play">?</button>
+    <p class="bubbles" title="Bubbles popped"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="13" r="7"/><circle cx="18" cy="6" r="3"/></svg><span class="count">0</span></p>
+  </header>
+
+  <div class="hint" aria-hidden="true">
+    <p class="keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrows to walk · <kbd>Space</kbd> jump · <kbd>Shift</kbd> run</p>
+    <p>Click anywhere to go there. Step on a glowing plaza to open it. Pop the bubbles!</p>
+  </div>
+  <p class="hint-touch" aria-hidden="true">Tap to walk · drag to look · tap a plaza to open it</p>
+  <a class="mode" href="?text">Text version</a>
+
+  <aside class="panel" id="panel" aria-labelledby="panel-title" hidden>
+    <div class="titlebar">
+      <img src="../assets/favicon.svg" alt="" width="16" height="16">
+      <span class="window-title" aria-hidden="true"></span>
+      <span class="caption">
+        <button class="cap" type="button" data-min aria-label="Minimise" title="Minimise"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 7.5h6"/></svg></button>
+        <button class="cap" type="button" data-max aria-label="Maximise" title="Maximise"><svg viewBox="0 0 10 10" aria-hidden="true"><rect class="one" x="2" y="2" width="6" height="6"/><path class="two" d="M2 4h4.5v4H2zM3.5 4V2.5H8v4H6.5"/></svg></button>
+      </span>
+      <a class="close" href="#" data-close aria-label="Close">
+        <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 2l6 6M8 2l-6 6"/></svg>
+      </a>
+    </div>
+    <div class="panel-body"></div>
+  </aside>
+
+  <!-- A minimised window waits here, like a Windows 7 taskbar button. -->
+  <button class="restore" type="button" hidden><img src="../assets/favicon.svg" alt="" width="18" height="18"><span></span></button>
+
+  <!-- First visit: a short how-to-play, in a Windows 7 dialog. Steps are in world.js. -->
+  <div class="tour" role="dialog" aria-modal="false" aria-labelledby="tour-title" hidden>
+    <div class="titlebar">
+      <img src="../assets/favicon.svg" alt="" width="16" height="16">
+      <span class="window-title" aria-hidden="true">How to play</span>
+      <button class="close" type="button" data-skip aria-label="Close"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 2l6 6M8 2l-6 6"/></svg></button>
+    </div>
+    <div class="tour-body">
+      <div class="tour-art" aria-hidden="true"></div>
+      <div><h2 id="tour-title"></h2><p class="tour-text"></p></div>
+    </div>
+    <div class="tour-foot">
+      <span class="tour-step"></span>
+      <button type="button" class="btn7" data-skip>Skip</button>
+      <button type="button" class="btn7" data-back>Back</button>
+      <button type="button" class="btn7 primary" data-next>Next</button>
+    </div>
+  </div>
+
+  <!-- The text version (and the source of every panel). Shown as is without WebGL, with ?text, and when printing. -->
+  <main class="sections">
+    <div class="intro">
+      <h1>Usukhbayar Idertsog</h1>
+      <p>I build small, focused tools for the Mac and the web: the kind that do one job well and keep your files on your own device.</p>
+      <p><a href="mailto:idertsogusukhbayar@gmail.com">idertsogusukhbayar@gmail.com</a> · <a class="mode-3d" href="./">3D version</a> · <a href="../">Main site</a></p>
+    </div>
+
+    <section id="about" aria-labelledby="about-title">
+      <h2 id="about-title">About me</h2>
+      <p class="big">I'm Usukhbayar, 17, a third-year student at New Mongol College of Technology in Ulaanbaatar.</p>
+      <p>I'm curious about how things work, so I build small tools to find out. Most start with something that annoys me every day, like a mouse that scrolls the wrong way or a file in the wrong format, and end as an app other people can download.</p>
+      <p>I write Swift for the Mac and TypeScript for the web, and I also code in C++, Java and Python, including C++ with Raylib in VS Code. Right now I'm learning more Swift and WebGL. Away from code, I produce music in FL Studio.</p>
+    </section>
+
+    <section id="projects" aria-labelledby="projects-title">
+      <h2 id="projects-title">Projects</h2>
+
+      <article class="project" id="convrt">
+        <h3><img class="app-icon" src="../assets/icons/convrt.png" alt="" width="40" height="40">Convrt</h3>
+        <p class="lede">Drag a file. Hold Shift. Drop it on a slice.</p>
+        <figure class="shot">
+          <img src="../assets/convrt-wheels.webp" srcset="../assets/convrt-wheels-800.webp 800w, ../assets/convrt-wheels.webp 1600w" sizes="(max-width: 760px) calc(100vw - 64px), 440px" width="1600" height="596" loading="lazy"
+               alt="Convrt's three wheels: Convert with image formats, Tools with compress and crop, and Actions with AirDrop and Quick Look.">
+        </figure>
+        <p>A macOS menu bar app that converts images, audio, video and PDFs. Start dragging a file, hold Shift, and a wheel of formats opens right at your cursor. Fully offline.</p>
+        <ul class="tags" aria-label="Built with"><li>Swift</li><li>SwiftUI</li><li>AppKit</li><li>AVFoundation</li><li>PDFKit</li></ul>
+        <p class="links">
+          <a href="https://github.com/atuuuuuuu/Convrt">Source code</a>
+          <a href="https://github.com/atuuuuuuu/Convrt/releases/latest">Download for macOS</a>
+        </p>
+      </article>
+
+      <article class="project" id="scrollr">
+        <h3><img class="app-icon" src="../assets/icons/scrollr.png" alt="" width="40" height="40">Scrollr</h3>
+        <p class="lede">Reverse your mouse. Keep your trackpad.</p>
+        <figure class="shot">
+          <img src="../assets/scrollr-menu.webp" srcset="../assets/scrollr-menu-800.webp 800w, ../assets/scrollr-menu.webp 1600w" sizes="(max-width: 760px) calc(100vw - 64px), 440px" width="1600" height="792" loading="lazy"
+               alt="Scrollr's menu bar menu with Reverse Mouse Scrolling and the connected mice, next to its settings window.">
+        </figure>
+        <p>A tiny macOS menu bar app that flips the scroll direction of your mouse and leaves the trackpad alone, with a switch for each mouse.</p>
+        <ul class="tags" aria-label="Built with"><li>Swift</li><li>SwiftUI</li><li>Core Graphics</li><li>IOKit</li></ul>
+        <p class="links">
+          <a href="https://github.com/atuuuuuuu/Scrollr">Source code</a>
+          <a href="https://github.com/atuuuuuuu/Scrollr/releases/latest">Download for macOS</a>
+        </p>
+      </article>
+
+      <article class="project" id="unpacked">
+        <h3><img class="app-icon" src="../assets/icons/unpacked.png" alt="" width="40" height="40">Unpacked</h3>
+        <p class="lede">Your data exports, unpacked. Privately.</p>
+        <figure class="shot">
+          <img src="../assets/unpacked-light.webp" srcset="../assets/unpacked-light-800.webp 800w, ../assets/unpacked-light.webp 1440w" sizes="(max-width: 760px) calc(100vw - 64px), 440px" width="1440" height="900" loading="lazy"
+               alt="Unpacked showing charts of a year of Spotify listening history.">
+        </figure>
+        <p>Drop the ZIP that Spotify, Instagram or YouTube gives you and see clear charts of your own data. Everything runs in your browser; nothing is uploaded.</p>
+        <ul class="tags" aria-label="Built with"><li>TypeScript</li><li>React</li><li>Vite</li><li>d3</li><li>Playwright</li></ul>
+        <p class="links">
+          <a href="https://atuuuuuuu.github.io/unpacked/">Try it</a>
+          <a href="https://github.com/atuuuuuuu/unpacked">Source code</a>
+        </p>
+      </article>
+
+      <article class="project" id="more">
+        <h3>Also built</h3>
+        <dl>
+          <dt><a href="https://github.com/atuuuuuuu/earth-jukebox">Earth Jukebox</a></dt>
+          <dd>NASA Space Apps Challenge 2026, with team RUSTMN. Sea surface temperature data on a 3D WebGL globe, built to work with a keyboard and a screen reader.</dd>
+          <dt><a href="https://github.com/atuuuuuuu/AI-ChatAssistant">AI ChatAssistant</a></dt>
+          <dd>A school project: a voice-controlled Chrome extension that searches, navigates and describes web pages.</dd>
+          <dt>Learning projects</dt>
+          <dd>One file each, built to learn from:
+            <a href="https://github.com/atuuuuuuu/study-timer">a focus timer</a>,
+            <a href="https://github.com/atuuuuuuu/budget-tracker">a family budget</a> and
+            <a href="https://github.com/atuuuuuuu/photo-renamer">a photo renamer</a>.</dd>
+        </dl>
+      </article>
+    </section>
+
+    <section id="experience" aria-labelledby="experience-title">
+      <h2 id="experience-title">Experience</h2>
+      <ol class="timeline">
+        <li><p class="when">Now</p><h3>New Mongol College of Technology</h3><p>Third-year student, Ulaanbaatar.</p></li>
+        <li><p class="when">November 2026</p><h3>Released Convrt, Scrollr and Unpacked</h3><p>Three open-source projects with public code, tests and releases.</p></li>
+        <li><p class="when">November 2026</p><h3>Technical writing</h3><p><a href="https://dev.to/atuuuuuuu/swiftuis-menubarextra-writes-isinserted-back-on-every-update-and-how-that-cost-me-97-cpu-6ej">How a SwiftUI menu bar bug cost me 97% CPU</a>, on dev.to.</p></li>
+        <li><p class="when">2026</p><h3>NASA Space Apps Challenge</h3><p>Built Earth Jukebox with team RUSTMN.</p></li>
+      </ol>
+      <h3>Toolbox</h3>
+      <dl class="toolbox">
+        <dt>Languages</dt><dd>C++, Java, Python, Swift, TypeScript, JavaScript, HTML and CSS</dd>
+        <dt>Libraries</dt><dd>Raylib, SwiftUI, AppKit, React, Vite, WebGL</dd>
+        <dt>Tools</dt><dd>VS Code, Xcode, Git, GitHub Actions, Homebrew</dd>
+        <dt>Testing</dt><dd>Vitest, Playwright, XCTest</dd>
+      </dl>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact</h2>
+      <p>Questions, ideas or opportunities: email me.</p>
+      <p><a class="email" href="mailto:idertsogusukhbayar@gmail.com">idertsogusukhbayar<wbr>@gmail.com</a></p>
+      <p class="copy-row">
+        <button class="copy" type="button" data-copy="idertsogusukhbayar@gmail.com" hidden>Copy email</button>
+        <span class="copy-status" role="status" aria-live="polite"></span>
+      </p>
+      <ul class="socials">
+        <li><a href="https://github.com/atuuuuuuu" target="_blank" rel="noopener">GitHub <span>github.com/atuuuuuuu</span></a></li>
+        <li><a href="https://dev.to/atuuuuuuu" target="_blank" rel="noopener">dev.to <span>dev.to/atuuuuuuu</span></a></li>
+      </ul>
+    </section>
+
+    <footer class="footer">
+      <p class="copyright">© <span data-year>2026</span> Usukhbayar Idertsog, Ulaanbaatar</p>
+    </footer>
+  </main>
+</body>
+</html>
